@@ -1,0 +1,1 @@
+fetch('data.json').then(r=>r.json()).then(d=>{document.getElementById('lastUpdated').textContent=d.last_updated;});
