@@ -1,8 +1,132 @@
 <!doctype html>
-<html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Dashboard test</title><link rel="stylesheet" href="styles.css"></head>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Inkoop Dashboard – Permalink</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
 <body>
-<h1>Dashboard test</h1>
-<p>Laatst bijgewerkt: <strong id="lastUpdated">—</strong></p>
-<script src="app.js"></script>
-</body></html>
+  <div class="wrap">
+    <h1>Dagelijkse Prijzen – Inkoop Dashboard</h1>
+    <div class="sub">
+      Permalink dashboard. <span class="sep">|</span> Laatst bijgewerkt: <strong id="lastUpdated">—</strong>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="containers-cn">Containerprijzen China</button>
+      <button class="tab" data-tab="containers-in">Containerprijzen India</button>
+      <button class="tab" data-tab="metals">Metalen</button>
+      <button class="tab" data-tab="plastics">Plastics</button>
+      <button class="tab" data-tab="energy">Energie</button>
+    </div>
+
+    <!-- Containerprijzen China (USD) -->
+    <section class="card" data-panel="containers-cn">
+      <div class="grid">
+        <div>
+          <div class="row" data-series="CN_20ft" data-unit="USD"><div class="label">20 ft (CIF China → Rotterdam)</div><div><span class="value">$ 1.250</span><span class="delta up">+2%</span> <span class="refdate">Δ vs —</span></div></div>
+          <div class="row" data-series="CN_40ft" data-unit="USD"><div class="label">40 ft</div><div><span class="value">$ 1.650</span><span class="delta down">-1%</span> <span class="refdate">Δ vs —</span></div></div>
+          <div class="row" data-series="CN_40HC" data-unit="USD"><div class="label">40 ft HC</div><div><span class="value">$ 1.850</span><span class="delta up">+4%</span> <span class="refdate">Δ vs —</span></div></div>
+        </div>
+        <div class="note">
+          <strong>Highlights</strong><br>
+          • Capaciteit krap in pre‑holiday weken.<br>
+          • Licht hogere tarieven op Azië → EU hoofdtrade.
+        </div>
+      </div>
+      <div class="chart-wrap" id="chart-cn">
+        <div class="chart-title">Trend (1 maand): <span id="chartTitleCN">—</span></div>
+        <canvas id="canvas-cn" width="1100" height="340"></canvas>
+      </div>
+    </section>
+
+    <!-- Containerprijzen India (EUR) -->
+    <section class="card" data-panel="containers-in" hidden>
+      <div class="grid">
+        <div>
+          <div class="row" data-series="IN_20ft" data-unit="EUR"><div class="label">20 ft (CIF India → Rotterdam)</div><div><span class="value">€ 1.200</span><span class="delta muted">±0%</span> <span class="refdate">Δ vs —</span></div></div>
+          <div class="row" data-series="IN_40ft" data-unit="EUR"><div class="label">40 ft</div><div><span class="value">€ 1.580</span><span class="delta up">+1%</span> <span class="refdate">Δ vs —</span></div></div>
+          <div class="row" data-series="IN_40HC" data-unit="EUR"><div class="label">40 ft HC</div><div><span class="value">€ 1.780</span><span class="delta up">+2%</span> <span class="refdate">Δ vs —</span></div></div>
+        </div>
+        <div class="note">
+          <strong>Highlights</strong><br>
+          • Indicatieve waarden in EUR; spreads t.o.v. China blijven beperkt.<br>
+          • Seizoensinvloed en equipmentbalans spelen mee.
+        </div>
+      </div>
+      <div class="chart-wrap" id="chart-in">
+        <div class="chart-title">Trend (1 maand): <span id="chartTitleIN">—</span></div>
+        <canvas id="canvas-in" width="1100" height="340"></canvas>
+      </div>
+    </section>
+
+    <!-- Metalen -->
+    <section class="card" data-panel="metals" hidden>
+      <div class="grid">
+        <div>
+          <div class="row" data-series="Copper" data-unit="USD/t"><div class="label">Koper (LME 3M)</div><div><span class="value">$ 10.900/t</span><span class="delta up">+0,5%</span> <span class="refdate">Δ vs —</span></div></div>
+          <div class="row" data-series="Aluminium" data-unit="USD/t"><div class="label">Aluminium (LME 3M)</div><div><span class="value">$ 2.380/t</span><span class="delta down">-0,2%</span> <span class="refdate">Δ vs —</span></div></div>
+          <div class="row" data-series="Nickel" data-unit="USD/t"><div class="label">Nikkel (LME 3M)</div><div><span class="value">$ 17.600/t</span><span class="delta up">+0,8%</span> <span class="refdate">Δ vs —</span></div></div>
+          <div class="row" data-series="Stainless" data-unit="USD/t"><div class="label">RVS (Stainless Steel, indicatief)</div><div><span class="value">$ 2.650/t</span><span class="delta muted">±0%</span> <span class="refdate">Δ vs —</span></div></div>
+          <div class="row" data-series="Iron" data-unit="USD/t"><div class="label">IJzer (Iron ore/indicatief)</div><div><span class="value">$ 115/t</span><span class="delta down">-0,4%</span> <span class="refdate">Δ vs —</span></div></div>
+          <div class="row" data-series="HRC" data-unit="USD/t"><div class="label">HRC Staal (indicatief)</div><div><span class="value">$ 530/t</span><span class="delta muted">±0%</span> <span class="refdate">Δ vs —</span></div></div>
+        </div>
+        <div class="note">
+          <strong>Highlights</strong><br>
+          • Koper hoger ondanks sterkere dollar.<br>
+          • RVS & HRC volgen nikkel/energie en regionale vraag.<br>
+          • IJzererts gevoelig voor Chinees staalnieuws.
+        </div>
+      </div>
+      <div class="chart-wrap" id="chart-metals">
+        <div class="chart-title">Trend (1 maand): <span id="chartTitleMetals">—</span></div>
+        <canvas id="canvas-metals" width="1100" height="340"></canvas>
+      </div>
+    </section>
+
+    <!-- Plastics -->
+    <section class="card" data-panel="plastics" hidden>
+      <div class="grid">
+        <div>
+          <div class="row" data-series="PP" data-unit="EUR/t"><div class="label">PP (homo, EU)</div><div><span class="value">€ 1.120/t</span><span class="delta down">-€ 15</span> <span class="refdate">Δ vs —</span></div></div>
+          <div class="row" data-series="HDPE" data-unit="EUR/t"><div class="label">HDPE (EU)</div><div><span class="value">€ 1.050/t</span><span class="delta muted">±0</span> <span class="refdate">Δ vs —</span></div></div>
+          <div class="row" data-series="PVC" data-unit="EUR/t"><div class="label">PVC (EU)</div><div><span class="value">€ 930/t</span><span class="delta down">-€ 10</span> <span class="refdate">Δ vs —</span></div></div>
+          <div class="row" data-series="ABS" data-unit="EUR/t"><div class="label">ABS (EU)</div><div><span class="value">€ 1.530/t</span><span class="delta up">+€ 20</span> <span class="refdate">Δ vs —</span></div></div>
+        </div>
+        <div class="note">
+          <strong>Highlights</strong><br>
+          • Contract vs. spot blijft uiteenlopen.<br>
+          • Monomeren, energie en importspreads sturen prijsrichting.
+        </div>
+      </div>
+      <div class="chart-wrap" id="chart-plastics">
+        <div class="chart-title">Trend (1 maand): <span id="chartTitlePlastics">—</span></div>
+        <canvas id="canvas-plastics" width="1100" height="340"></canvas>
+      </div>
+    </section>
+
+    <!-- Energy -->
+    <section class="card" data-panel="energy" hidden>
+      <div class="grid">
+        <div>
+          <div class="row" data-series="Brent" data-unit="USD/bbl"><div class="label">Brent (front‑month)</div><div><span class="value">$ 65,1/bbl</span><span class="delta up">+0,6%</span> <span class="refdate">Δ vs —</span></div></div>
+          <div class="row" data-series="TTF" data-unit="EUR/MWh"><div class="label">TTF Gas (front)</div><div><span class="value">€ 31,3/MWh</span><span class="delta down">-1,1%</span> <span class="refdate">Δ vs —</span></div></div>
+          <div class="row" data-series="Coal" data-unit="USD/t"><div class="label">ICE Coal (Rotterdam)</div><div><span class="value">$ 117/t</span><span class="delta muted">±0%</span> <span class="refdate">Δ vs —</span></div></div>
+        </div>
+        <div class="note">
+          <strong>Highlights</strong><br>
+          • Olie licht hoger; gas kalm door voorraden.<br>
+          • Kolen stabiel; powerprijzen volgen brandstoffen & EUA.
+        </div>
+      </div>
+      <div class="chart-wrap" id="chart-energy">
+        <div class="chart-title">Trend (1 maand): <span id="chartTitleEnergy">—</span></div>
+        <canvas id="canvas-energy" width="1100" height="340"></canvas>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
