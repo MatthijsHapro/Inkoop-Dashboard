@@ -1,0 +1,37 @@
+name: Update dashboard data (daily)
+
+on:
+  schedule:
+    # Draait elke dag om 08:05 Nederlandse tijd (07:05 UTC)
+    - cron: '5 7 * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Update data.json
+        run: |
+          python3 scripts/generate_data.py
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name "dashboard-bot"
+          git config user.email "dashboard-bot@example.com"
+          if [[ -n $(git status --porcelain) ]]; then
+            git add data.json
+            git commit -m "chore: daily auto-update data.json"
+            git push
+          else
+            echo "No changes to commit."
+          fi
