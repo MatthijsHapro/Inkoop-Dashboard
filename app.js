@@ -110,3 +110,75 @@ async function init(){
   setupSection('[data-panel="energy"]', '#canvas-energy', '#chartTitleEnergy', data);
 }
 init().catch(console.error);
+// === HS-code AI: klik-handler + render ===
+async function callHsApi(payload) {
+  const ENDPOINT = 'https://<JOUW-SERVERLESS-URL>/api/hs'; // <-- straks vervangen
+  try {
+    const r = await fetch(ENDPOINT, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return await r.json();
+  } catch (e) {
+    // DEMO fallback: simpele suggesties zodat de UI werkt zonder backend
+    const txt = (payload.description || '').toLowerCase();
+    const guess = txt.includes('scharnier') ? '83021000'
+               : txt.includes('plastic') && txt.includes('zit') ? '95069990'
+               : txt.includes('rvs') || txt.includes('stainless') ? '73269098'
+               : txt.includes('aluminium') ? '76169990'
+               : '39269097';
+    return {
+      origin: payload.origin || 'CN',
+      candidates: [
+        { hs_code: guess, title: 'Indicatieve match (demo)', duty: null,
+          reason: 'Demo-modus: ruwe keyword-match (vervang door serverless endpoint).',
+          links: {
+            a2m: `https://www.google.com/search?q=site%3Atrade.ec.europa.eu+${guess}`,
+            nl:  `https://tarief.douane.nl/arctictariff-public-web/Tariff?preferredLanguage=nl&taricCode=${guess}`
+          }
+        }
+      ]
+    };
+  }
+}
+
+function renderHS(data){
+  const box = document.getElementById('hsResults');
+  if (!data || !data.candidates || !data.candidates.length) {
+    box.innerHTML = '<div class="small">Geen match. Probeer specifieker (materiaal, functie, set/onderdeel, afmetingen).</div>';
+    return;
+  }
+  box.innerHTML = data.candidates.map(c => `
+    <div class="card" style="margin:0 0 10px 0">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+        <div><strong>${c.hs_code || '—'}</strong> — ${c.title || ''}</div>
+        <div>${c.duty != null ? `<strong>${c.duty}% invoerrecht</strong>` : `<span class="small">tarief: n.v.t.</span>`}</div>
+      </div>
+      <div class="small" style="margin-top:6px">${c.reason || ''}</div>
+      <div class="small" style="margin-top:8px">
+        🔗 Verifieer:
+        <a href="https://trade.ec.europa.eu/access-to-markets/en/home" target="_blank">Access2Markets</a> ·
+        <a href="https://tarief.douane.nl/" target="_blank">NL Gebruikstarief</a>
+        ${c.links?.a2m ? ` · <a href="${c.links.a2m}" target="_blank">A2M zoeklink</a>` : ''}
+        ${c.links?.nl ? ` · <a href="${c.links.nl}" target="_blank">NL tarieflink</a>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+// Koppeling aan de knop
+const hsBtn = document.getElementById('hsSubmit');
+if (hsBtn) {
+  hsBtn.addEventListener('click', async () => {
+    const payload = {
+      description: (document.getElementById('hsDesc')?.value || '').trim(),
+      material: (document.getElementById('hsMaterial')?.value || '').trim(),
+      use: (document.getElementById('hsUse')?.value || '').trim(),
+      origin: (document.getElementById('hsOrigin')?.value || 'CN').toUpperCase()
+    };
+    const data = await callHsApi(payload);
+    renderHS(data);
+  });
+}
