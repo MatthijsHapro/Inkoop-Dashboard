@@ -6,6 +6,15 @@
 <title>Inkoop Dashboard – Permalink</title>
 <link rel="stylesheet" href="styles.css" />
 </head>
+  <script>
+document.addEventListener('DOMContentLoaded', function(){
+  const btn = document.getElementById('hsSubmit');
+  btn?.addEventListener('click', function(){
+    const box = document.getElementById('hsResults');
+    box.innerHTML = '<div class="small">TEST OK — klik komt binnen.</div>';
+  });
+});
+</script>
 <body>
   <div class="wrap">
     <h1>Dagelijkse Prijzen – Inkoop Dashboard</h1>
@@ -151,5 +160,5 @@
   </div>
 
   <script src="app.js"></script>
-</body>
+
 </html>
