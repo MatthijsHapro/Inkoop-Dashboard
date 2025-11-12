@@ -19,6 +19,7 @@
       <button class="tab" data-tab="metals">Metalen</button>
       <button class="tab" data-tab="plastics">Plastics</button>
       <button class="tab" data-tab="energy">Energie</button>
+      <button class="tab" data-tab="hs-ai">HS-code AI</button>
     </div>
 
     <!-- Containerprijzen China (USD) -->
@@ -125,6 +126,28 @@
         <canvas id="canvas-energy" width="1100" height="340"></canvas>
       </div>
     </section>
+    <section class="card" data-panel="hs-ai" hidden>
+  <h2>HS-code Zoeker (AI)</h2>
+  <p class="small">Vul een duidelijke omschrijving in (materiaal, functie, set/part, afmeting).</p>
+
+  <textarea id="hsDesc" class="input" rows="4"
+    placeholder="Bijv. 'Plastic schommelzitje (PE) met metalen ketting, set voor kinderspeeltoestel'"></textarea>
+
+  <div style="display:flex; gap:8px; margin-top:8px">
+    <input id="hsMaterial" class="input" placeholder="Materiaal (optioneel)" />
+    <input id="hsUse" class="input" placeholder="Gebruik/functie (optioneel)" />
+  </div>
+
+  <div style="display:flex; gap:8px; margin-top:8px">
+    <input id="hsOrigin" class="input" placeholder="Land van oorsprong (bv. CN, IN)" style="max-width:160px" />
+    <input id="hsDest" class="input" value="EU" disabled style="max-width:120px" />
+  </div>
+
+  <button id="hsSubmit" class="btn" style="margin-top:10px">🔎 Vind HS-code</button>
+  <div id="hsResults" style="margin-top:12px"></div>
+  <p class="small" style="margin-top:10px">Resultaten zijn indicatief. Verifieer altijd via Access2Markets of NL Gebruikstarief.</p>
+</section>
+
   </div>
 
   <script src="app.js"></script>
